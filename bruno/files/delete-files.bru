@@ -1,11 +1,11 @@
 meta {
-  name: getFolders
+  name: delete-files
   type: http
-  seq: 6
+  seq: 4
 }
 
-get {
-  url: http://localhost:8080/folders
+delete {
+  url: http://localhost:8080/files/102
   body: none
   auth: inherit
 }

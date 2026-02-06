@@ -1,17 +1,25 @@
 meta {
-  name: Delete files
+  name: create-folder
   type: http
-  seq: 7
+  seq: 4
 }
 
-delete {
-  url: http://localhost:8080/files/102
+post {
+  url: http://localhost:8080/folders?name=MyNewFolder
   body: none
-  auth: inherit
+  auth: none
+}
+
+params:query {
+  name: MyNewFolder
 }
 
 headers {
   Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SGVybWFuIiwiaWF0IjoxNzY5NTEyMzA5LCJleHAiOjE3Njk1OTg3MDl9.PwfpOspszDGFRYwjQcm0jfdxS8hMan7upX37i5VMXz8
+}
+
+body:form-urlencoded {
+  name: NyMappTest123123
 }
 
 settings {

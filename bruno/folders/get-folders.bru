@@ -1,25 +1,17 @@
 meta {
-  name: Create folder
+  name: get-folders
   type: http
-  seq: 1
+  seq: 4
 }
 
-post {
-  url: http://localhost:8080/folders?name=MyNewFolder
+get {
+  url: http://localhost:8080/folders
   body: none
-  auth: none
-}
-
-params:query {
-  name: MyNewFolder
+  auth: inherit
 }
 
 headers {
   Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SGVybWFuIiwiaWF0IjoxNzY5NTEyMzA5LCJleHAiOjE3Njk1OTg3MDl9.PwfpOspszDGFRYwjQcm0jfdxS8hMan7upX37i5VMXz8
-}
-
-body:form-urlencoded {
-  name: NyMappTest123123
 }
 
 settings {
