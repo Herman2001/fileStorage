@@ -1,0 +1,20 @@
+meta {
+  name: Ladda ner fil
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:8080/files/102
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SGVybWFuIiwiaWF0IjoxNzY5NTEyMzA5LCJleHAiOjE3Njk1OTg3MDl9.PwfpOspszDGFRYwjQcm0jfdxS8hMan7upX37i5VMXz8
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

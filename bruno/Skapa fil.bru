@@ -1,0 +1,30 @@
+meta {
+  name: Skapa fil
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/files
+  body: multipartForm
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SGVybWFuIiwiaWF0IjoxNzY5NTEyMzA5LCJleHAiOjE3Njk1OTg3MDl9.PwfpOspszDGFRYwjQcm0jfdxS8hMan7upX37i5VMXz8
+  Content-Type: multipart/form-data
+}
+
+body:multipart-form {
+  file: @file(/Users/hermanbengtsson/Downloads/test.txt) @contentType(File)
+  folderId: 1 @contentType(Text)
+}
+
+body:file {
+  ~file: @file()
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

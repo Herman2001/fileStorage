@@ -1,0 +1,20 @@
+meta {
+  name: Delete folder
+  type: http
+  seq: 8
+}
+
+delete {
+  url: http://localhost:8080/folders/2
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0SGVybWFuMiIsImlhdCI6MTc3MDM2NTgyOCwiZXhwIjoxNzcwNDUyMjI4fQ.PQTi0kV_mPHaSzdwIJlDwuYUp2q9kChEbPkvVPIbJoQ
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

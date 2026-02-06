@@ -1,0 +1,27 @@
+meta {
+  name: create user
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/users/register
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "testReactUsername",
+    "password": "testReactPassword"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
