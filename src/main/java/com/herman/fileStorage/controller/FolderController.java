@@ -5,6 +5,7 @@ import com.herman.fileStorage.entity.Folder;
 import com.herman.fileStorage.entity.User;
 import com.herman.fileStorage.security.SecurityUtils;
 import com.herman.fileStorage.service.FolderService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,5 +36,15 @@ public class FolderController {
                         folder.getId(), folder.getName()
                 ))
                 .toList();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFolder(@PathVariable long id) {
+        User user = SecurityUtils.getAuthenticatedUser();
+
+        Folder folder = folderService.getFolderByIdAndUser(id, user.getId());
+
+        folderService.deleteFolder(folder.getId());
+        return ResponseEntity.noContent().build();
     }
 }
