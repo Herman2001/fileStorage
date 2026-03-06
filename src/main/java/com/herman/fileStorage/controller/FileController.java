@@ -1,5 +1,7 @@
 package com.herman.fileStorage.controller;
 
+import com.herman.fileStorage.dto.FileResource;
+import com.herman.fileStorage.dto.FileResponseDto;
 import com.herman.fileStorage.entity.FileEntity;
 import com.herman.fileStorage.entity.Folder;
 import com.herman.fileStorage.entity.User;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 
 @RestController
 @RequestMapping("/files")
@@ -31,7 +36,7 @@ public class FileController {
      * Upload a file to a folder owned by the authenticated user.
      */
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<FileEntity> uploadFile(
+    public ResponseEntity<FileResource> uploadFile(
             @RequestParam("file") MultipartFile file,
             @RequestParam("folderId") Long folderId
     ) throws IOException {
@@ -46,7 +51,18 @@ public class FileController {
                 user
         );
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedFile);
+        FileResource resource = new FileResource(
+                new FileResponseDto(
+                        savedFile.getId(),
+                        savedFile.getFilename(),
+                        savedFile.getFolder().getId(),
+                        savedFile.getFolder().getName()
+                )
+        );
+        resource.add(linkTo(methodOn(FileController.class).downloadFile(savedFile.getId())).withRel("download"));
+        resource.add(linkTo(methodOn(FileController.class).deleteFile(savedFile.getId())).withRel("delete"));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(resource);
     }
 
     /**
@@ -72,9 +88,7 @@ public class FileController {
     @DeleteMapping("/{fileId}")
     public ResponseEntity<Void> deleteFile(@PathVariable Long fileId) {
         User user = SecurityUtils.getAuthenticatedUser();
-
-        FileEntity file = fileService.findByIdAndUserId(fileId, user.getId());
-
+        fileService.findByIdAndUserId(fileId, user.getId());
         fileService.deleteFile(fileId);
         return ResponseEntity.noContent().build();
     }
