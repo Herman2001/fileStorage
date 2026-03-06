@@ -80,4 +80,26 @@ public class UserService {
     public Optional<User> findById(UUID id) {
         return userRepository.findById(id);
     }
+
+    /**
+     * To find or Create a GitHub User
+     *
+     * @param githubId the githubId of the user
+     * @param username the username of the user
+     * @return the user
+     */
+    public User findOrCreateGithubUser(String githubId, String username) {
+        return userRepository.findByGithubId(githubId)
+                .orElseGet(() -> {
+                    String finalUsername = username;
+                    if (userRepository.existsByUsername(finalUsername)) {
+                        finalUsername = username + "-" + githubId;
+                    }
+                    User newUser = new User();
+                    newUser.setId(UUID.randomUUID());
+                    newUser.setUsername(finalUsername);
+                    newUser.setGithubId(githubId);
+                    return userRepository.save(newUser);
+                });
+    }
 }

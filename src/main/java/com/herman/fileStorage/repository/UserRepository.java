@@ -28,4 +28,12 @@ public interface UserRepository extends JpaRepository<User,UUID> {
      * @return true if a user with the username exists, else false
      */
     boolean existsByUsername(String username);
+
+    /**
+     * Finds a user by their GitHub id
+     *
+     * @param gitHubId the GitHub id to check for
+     * @return an optional containing the user if found, else empty
+     */
+    Optional<User> findByGithubId(String gitHubId);
 }

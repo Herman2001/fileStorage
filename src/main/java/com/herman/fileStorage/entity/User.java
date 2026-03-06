@@ -22,9 +22,12 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
-    @JsonIgnore// Borde man skapa en dto?
+    @Column(nullable = true)
+    @JsonIgnore
     private String password;
+
+    @Column(unique = true)
+    private String githubId;
 
     @OneToMany(mappedBy = "owner")
     @JsonIgnore
