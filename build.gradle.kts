@@ -10,7 +10,7 @@ description = "Demo project for Spring Boot"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(22)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -19,7 +19,9 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
@@ -34,6 +36,10 @@ dependencies {
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    archiveVersion.set("") // fix för Gradle 9+
 }
 
 tasks.withType<Test> {

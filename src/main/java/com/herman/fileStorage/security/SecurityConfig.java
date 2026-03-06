@@ -12,9 +12,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final OAuth2AuthenticationSuccessHandler successHandler;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
+                          OAuth2AuthenticationSuccessHandler successHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.successHandler = successHandler;
     }
 
     @Bean
@@ -22,11 +25,19 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/users/register").permitAll()
+                        .requestMatchers(
+                                "/auth/**",
+                                "/users/register",
+                                "/oauth2/**",
+                                "/login/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth -> oauth
+                        .successHandler(successHandler)
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
